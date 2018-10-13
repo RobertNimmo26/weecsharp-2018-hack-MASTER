@@ -375,6 +375,12 @@ healthxpos=0
 healthypos=0
 enemies = []
 
+tanks=[]
+x=[0, 0, 0, 0, 0]
+y=[0, 0, 0, 0, 0]
+heading=[0, 0, 0, 0, 0]
+distance=[0, 0, 0, 0, 0]
+
 while True:
 
   #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
@@ -412,4 +418,46 @@ while True:
 		else:
 
 			move_to_position(xpos,ypos,0,0)
+
+
+
+#GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount" : 0})
+#GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : 90})
+
+
+        #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
+        #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
+        
+        message = GameServer.readMessage()
+        #logging.info(message)
+
+                if "Type" in message.keys():
+                        if message["Type"] == "Tank":
+                                if message["Name"] not in tanks:
+                                        tanks.append(message["Name"])
+                                else:
+                                        pos=tanks.index(message["Name"])                       
+
+                                        x[pos]=message["X"]
+                                        y[pos]=message["Y"]
+
+                                        if message["Name"] != "DONKEY":                                
+                                                heading[pos]=GetHeading(x[0], y[0], x[pos], y[pos])
+                                                distance[pos]=GetDistance(x[0], y[0], x[pos], y[pos])
+
+        if len(distance) > 0:
+                lowest = distance[1]           
+                for i in range(len(tanks)-1):
+                        if distance[i] != 0:
+                                if lowest-distance[i] > 0:
+                                        lowest=distance[i]
+
+        lowestpos=distance.index(lowest)              
+        logging.info(lowest)
+        logging.info(heading[lowestpos])
+        
+      
+        GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
+        GameServer.sendMessage(ServerMessageTypes.FIRE)
+        #time.sleep(0.25)
 
