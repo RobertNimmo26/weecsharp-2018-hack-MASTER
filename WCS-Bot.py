@@ -340,7 +340,7 @@ GameServer = ServerComms(args.hostname, args.port)
 
 logging.info("Creating tank with name '{}'".format(args.name))
 
-GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name}
+GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 
 
 #key functions
@@ -386,8 +386,8 @@ while True:
   #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
   #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
         
-  message = GameServer.readMessage()
-  #logging.info(message)
+	message = GameServer.readMessage()
+	#logging.info(message)
 	logging.info(message)
 	if type(message) == dict:
 		print(message)
@@ -428,36 +428,35 @@ while True:
         #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
         #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
         
-        message = GameServer.readMessage()
-        #logging.info(message)
+	#logging.info(message)
 
-                if "Type" in message.keys():
-                        if message["Type"] == "Tank":
-                                if message["Name"] not in tanks:
-                                        tanks.append(message["Name"])
-                                else:
-                                        pos=tanks.index(message["Name"])                       
+		if "Type" in message.keys():
+			if message["Type"] == "Tank":
+				if message["Name"] not in tanks:
+					tanks.append(message["Name"])
+				else:
+					pos=tanks.index(message["Name"])                       
 
-                                        x[pos]=message["X"]
-                                        y[pos]=message["Y"]
+					x[pos]=message["X"]
+					y[pos]=message["Y"]
 
-                                        if message["Name"] != "DONKEY":                                
-                                                heading[pos]=GetHeading(x[0], y[0], x[pos], y[pos])
-                                                distance[pos]=GetDistance(x[0], y[0], x[pos], y[pos])
+					if message["Name"] != "DONKEY":                                
+						heading[pos]=GetHeading(x[0], y[0], x[pos], y[pos])
+						distance[pos]=GetDistance(x[0], y[0], x[pos], y[pos])
 
-        if len(distance) > 0:
-                lowest = distance[1]           
-                for i in range(len(tanks)-1):
-                        if distance[i] != 0:
-                                if lowest-distance[i] > 0:
-                                        lowest=distance[i]
+			if len(distance) > 0:
+				lowest = distance[1]           
+				for i in range(len(tanks)-1):
+					if distance[i] != 0:
+						if lowest-distance[i] > 0:
+							lowest=distance[i]
 
-        lowestpos=distance.index(lowest)              
-        logging.info(lowest)
-        logging.info(heading[lowestpos])
-        
-      
-        GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
-        GameServer.sendMessage(ServerMessageTypes.FIRE)
-        #time.sleep(0.25)
+			lowestpos=distance.index(lowest)              
+			logging.info(lowest)
+			logging.info(heading[lowestpos])
+			
+		
+			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
+			GameServer.sendMessage(ServerMessageTypes.FIRE)
+			#time.sleep(0.25)
 
