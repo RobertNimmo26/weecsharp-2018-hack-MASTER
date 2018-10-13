@@ -1,4 +1,6 @@
 #!/usr/bin/python
+#test
+#bdcskcksdbkbkvlzdj
 
 import json
 import socket
@@ -179,8 +181,17 @@ def GetHeading(x1,y1,x2,y2):
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
 	displacement_y=y2-y1
-	return math.sqrt(displacement_x**2 + displacement_y**2)
+	return int(math.sqrt(displacement_x**2 + displacement_y**2))
+
+def move_to_position(xpos,ypos,desiredxpos,desiredypos,body_heading=0,distance_to_coord=0):
+	body_heading = GetHeading(xpos, ypos, desiredxpos,desiredypos )	
+	distance_to_coord = GetDistance(xpos, ypos, desiredxpos, desiredypos)
 	
+	
+	logging.info('Going to origin')
+	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+	GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
 # Main loop - read game messages, ignore them and randomly perform actions
 i=0
 names = []
@@ -201,15 +212,28 @@ while True:
 	if type(message) == dict:
 		print(message)
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
-			xpos = message["X"]
-			ypos = message["Y"]
-			# test to head to centre of arena
-			# heading = GetHeading(xpos,ypos,0,0)
-			# GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading})
-			# GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': 10})
+
+			ypos = message["X"]
+			xpos = message["Y"]
+
+			print(xpos)
+
+		if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
+			enemyname = message["Name"]
+			enemyxpos = message["X"]
+			enemyypos = message['Y']
+			if enemyname in enemies:
+				enemies[1] = enemyname
+			badguy = [enemyname,enemyxpos,enemyypos]
+			#print(enemies)
+			enemies.append(badguy)
+		if ("Name" in message) and (message["Type"] == 'HealthPickup') and (message['Name'] != 'RandomBot'):
+			healthxpos= message['X']
+			healthypos=message['Y']
 
 
-			if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
+
+		if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
 				enemyname = message["Name"]
 				enemyxpos = message["X"]
 				enemyypos = message['Y']
@@ -255,9 +279,15 @@ while True:
 				#	logging.info("Moving randomly")
 				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": i})
 				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': 100})
+        
+        
+        logging.info("Moving to health pack")
+			  #while ("Name" in message) and (message['HealthPickup'] != True) :
+			  GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading_to_health})
+			  GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
+        #move_to_position(xpos,ypos,0,0)
 
-
-
+		
 
 
 
