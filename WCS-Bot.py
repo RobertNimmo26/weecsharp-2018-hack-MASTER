@@ -174,9 +174,9 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 #key functions
 def GetHeading(x1,y1,x2,y2):
 	heading = math.degrees(math.atan2(y2-y1,x2-x1))
-	heading = math.fmod((heading - 360), 360)
-	
-	return int(heading)
+	heading = math.fmod(heading-360,360)
+	print(heading)
+	return int(math.fabs(heading))
 	
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
@@ -207,10 +207,12 @@ while True:
 	message = GameServer.readMessage()
 	
 
+
 	logging.info(message)
 	if type(message) == dict:
 		print(message)
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
+
 			ypos = message["X"]
 			xpos = message["Y"]
 
@@ -229,25 +231,61 @@ while True:
 			healthxpos= message['X']
 			healthypos=message['Y']
 
-			
 
-			#print(healthxpos)
-			#print(healthypos)
-		'''if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
-			
-			heading_to_health=GetHeading(xpos,ypos,healthxpos,healthypos)
-			distance_to_health=GetDistance(xpos,ypos,healthxpos,healthypos)
 
-			#type(message['HealthPickup'])			
+		if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
+				enemyname = message["Name"]
+				enemyxpos = message["X"]
+				enemyypos = message['Y']
+				if enemyname in enemies:
+					enemies[1] = enemyname
+				badguy = [enemyname,enemyxpos,enemyypos]
+				#print(enemies)
+				enemies.append(badguy)
+			if ("Name" in message) and (message["Type"] == 'HealthPickup') and (message['Name'] != 'RandomBot'):
+				healthxpos= message['X']
+				healthypos=message['Y']
 
-			logging.info("Moving to health pack")
-			#while ("Name" in message) and (message['HealthPickup'] != True) :
-			GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading_to_health})
-			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
-			
-		else:'''
+				
 
-		move_to_position(xpos,ypos,0,0)
+				#print(healthxpos)
+				#print(healthypos)
+			if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
+				
+				heading_to_health=GetHeading(xpos,ypos,healthxpos,healthypos)
+				distance_to_health=GetDistance(xpos,ypos,healthxpos,healthypos)
+
+				#type(message['HealthPickup'])			
+
+				logging.info("Moving to health pack")
+				#while ("Name" in message) and (message['HealthPickup'] != True) :
+				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading_to_health})
+				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
+				
+			else:
+				'''logging.info("Turn 360 degree")
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})'''
+				#print('test')
+				heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": heading})
+				#print(enemies)
+				#if i == 10:
+				#	logging.info("Turning randomly")
+				#	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {'Amount': random.randint(0, 359)})
+				#elif i == 15:
+				#	logging.info("Moving randomly")
+				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": i})
+				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': 100})
+        
+        
+        logging.info("Moving to health pack")
+			  #while ("Name" in message) and (message['HealthPickup'] != True) :
+			  GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading_to_health})
+			  GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
+        #move_to_position(xpos,ypos,0,0)
 
 		
 
