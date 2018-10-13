@@ -240,16 +240,20 @@ while True:
 			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
 			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})'''
 			#print('test')
-			turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
-			body_heading = GetHeading(xpos, ypos, 0, 0)	
-			distance_to_coord = GetDistance(xpos, ypos, 0, 0)
+
+			while (xpos != 0) and (ypos != 0):
+				turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
+				body_heading = GetHeading(xpos, ypos, 0, 0)	
+				distance_to_coord = GetDistance(xpos, ypos, 0, 0)
+				
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": turret_heading})
+				#while (xpos != 0) and (ypos != 0):
+				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
 			
-			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": heading})
-			#while (xpos != 0) and (ypos != 0):
-			GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
-			print("distance:", distance_to_coord)
-			print("heading:", body_heading)
+			
+				print("distance:", distance_to_coord)
+				print("heading:", body_heading)
 			#print(enemies)
 			#if i == 10:
 			#	logging.info("Turning randomly")
