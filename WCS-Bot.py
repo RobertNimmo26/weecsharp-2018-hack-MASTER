@@ -146,7 +146,7 @@ class ServerComms(object):
 			binascii.hexlify(message)))
 		return self.ServerSocket.send(message)
 
-
+#hey glen
 # Parse command line args
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--debug', action='store_true', help='Enable debug output')
