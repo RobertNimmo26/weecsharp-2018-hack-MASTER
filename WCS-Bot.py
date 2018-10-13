@@ -247,8 +247,7 @@ while True:
 			#	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {'Amount': random.randint(0, 359)})
 			#elif i == 15:
 			#	logging.info("Moving randomly")
-			GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": i})
-			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': 100})
+			
 			i = i + 5
 			if i > 360:
 				i = 0
