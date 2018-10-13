@@ -174,15 +174,24 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 #key functions
 def GetHeading(x1,y1,x2,y2):
 	heading = math.degrees(math.atan2(y2-y1,x2-x1))
-	heading = (heading - 360) % 360
-	#print(heading)
-	return int(abs(heading))
+	heading = math.fmod((heading - 360), 360)
+	
+	return int(heading)
 	
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
 	displacement_y=y2-y1
 	return int(math.sqrt(displacement_x**2 + displacement_y**2))
+
+def move_to_position(xpos,ypos,desiredxpos,desiredypos,body_heading=0,distance_to_coord=0):
+	body_heading = GetHeading(xpos, ypos, desiredxpos,desiredypos )	
+	distance_to_coord = GetDistance(xpos, ypos, desiredxpos, desiredypos)
 	
+	
+	logging.info('Going to origin')
+	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+	GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
 # Main loop - read game messages, ignore them and randomly perform actions
 i=0
 names = []
@@ -204,6 +213,9 @@ while True:
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
 			xpos = message["X"]
 			ypos = message["Y"]
+
+			print(xpos)
+
 		if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
 			enemyname = message["Name"]
 			enemyxpos = message["X"]
@@ -221,7 +233,7 @@ while True:
 
 			#print(healthxpos)
 			#print(healthypos)
-		if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
+		'''if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
 			
 			heading_to_health=GetHeading(xpos,ypos,healthxpos,healthypos)
 			distance_to_health=GetDistance(xpos,ypos,healthxpos,healthypos)
@@ -233,50 +245,11 @@ while True:
 			GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": heading_to_health})
 			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
 			
-		else:
-			
-			
+		else:'''
 
-			while (xpos != 0) and (ypos != 0):
-				turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
-				body_heading = GetHeading(xpos, ypos, 0, 0)	
-				distance_to_coord = GetDistance(xpos, ypos, 0, 0)
-				
-				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": turret_heading})
-				#while (xpos != 0) and (ypos != 0):
-				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
-			
-			
-				print("distance:", distance_to_coord)
-				print("heading:", body_heading)
-			while (xpos != 0) and (ypos != 0):
-				if ("Name" in message) and (message["Name"] == 'RandomBot'):
-					xpos = message["X"]
-					ypos = message["Y"]
-				turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
-				body_heading = GetHeading(xpos, ypos, 0, 0)	
-				distance_to_coord = GetDistance(xpos, ypos, 0, 0)
-				
-				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": turret_heading})
-				
-				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
-			
-			
-				print("distance:", distance_to_coord)
-				print("heading:", body_heading)
-			#print(enemies)
-			#if i == 10:
-			#	logging.info("Turning randomly")
-			#	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {'Amount': random.randint(0, 359)})
-			#elif i == 15:
-			#	logging.info("Moving randomly")
+		move_to_position(xpos,ypos,0,0)
 
-			i = i + 5
-			if i > 360:
-				i = 0
-
+		
 
 
 
