@@ -174,9 +174,9 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 #key functions
 def GetHeading(x1,y1,x2,y2):
 	heading = math.degrees(math.atan2(y2-y1,x2-x1))
-	heading = math.fmod((heading - 360), 360)
-	
-	return int(heading)
+	heading = math.fmod(heading-360,360)
+	#print(heading)
+	return int(math.fabs(heading))
 	
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
@@ -211,8 +211,8 @@ while True:
 	if type(message) == dict:
 		print(message)
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
-			ypos = message["X"]
-			xpos = message["Y"]
+			xpos = message["X"]
+			ypos = message["Y"]
 
 			print(xpos)
 
@@ -247,7 +247,7 @@ while True:
 			
 		else:'''
 
-		move_to_position(xpos,ypos,0,0)
+		move_to_position(xpos,ypos,10,10)
 
 		
 
