@@ -382,9 +382,6 @@ heading=[0, 0, 0, 0, 0]
 distance=[0, 0, 0, 0, 0]
 
 while True:
-
-  #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
-  #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
         
 	message = GameServer.readMessage()
 	#logging.info(message)
@@ -393,10 +390,8 @@ while True:
 		print(message)
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
 
-			ypos = message["X"]
-			xpos = message["Y"]
-
-			print(xpos)
+			xpos = message["X"]
+			ypos = message["Y"]
 
 		if ("Name" in message) and (message["Type"] == 'Tank') and (message['Name'] != 'RandomBot'):
 			enemyname = message["Name"]
@@ -421,10 +416,11 @@ while True:
 
 
 
+
 #GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount" : 0})
 #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : 90})
 
-
+ 
         #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
         #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
         
