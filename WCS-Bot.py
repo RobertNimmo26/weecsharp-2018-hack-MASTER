@@ -424,7 +424,7 @@ while True:
 #GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount" : 0})
 #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : 90})
 
-
+ 
         #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
         #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
         
