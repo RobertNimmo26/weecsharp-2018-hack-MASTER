@@ -172,7 +172,7 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 
 #key functions
 def GetHeading(x1,y1,x2,y2):
-	heading = math.degrees(math.atan2(y2-y1,x2-x1))
+	heading = math.degrees(math.atan2((y2-y1),(x2-x1))
 	heading = (heading - 360) % 360
 	#print(heading)
 	return int(abs(heading))
