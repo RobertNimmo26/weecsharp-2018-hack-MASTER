@@ -415,6 +415,17 @@ while True:
 			move_to_position(xpos,ypos,0,0)
 
 
+
+
+#GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount" : 0})
+#GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : 90})
+
+ 
+        #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
+        #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
+        
+	#logging.info(message)
+
 		if "Type" in message.keys():
 			if message["Type"] == "Tank":
 				if message["Name"] not in tanks:
