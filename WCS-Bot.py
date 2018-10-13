@@ -1,5 +1,6 @@
 #!/usr/bin/python
 #test
+#bdcskcksdbkbkvlzdj
 
 import json
 import socket
@@ -172,7 +173,7 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 
 #key functions
 def GetHeading(x1,y1,x2,y2):
-	heading = math.degrees(math.atan2((y2-y1),(x2-x1))
+	heading = math.degrees(math.atan2(y2-y1,x2-x1))
 	heading = (heading - 360) % 360
 	#print(heading)
 	return int(abs(heading))
@@ -239,8 +240,16 @@ while True:
 			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
 			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})'''
 			#print('test')
-			heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
+			turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
+			body_heading = GetHeading(xpos, ypos, 0, 0)	
+			distance_to_coord = GetDistance(xpos, ypos, 0, 0)
+			
 			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": heading})
+			#while (xpos != 0) and (ypos != 0):
+			GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
+			print("distance:", distance_to_coord)
+			print("heading:", body_heading)
 			#print(enemies)
 			#if i == 10:
 			#	logging.info("Turning randomly")
@@ -248,7 +257,6 @@ while True:
 			#elif i == 15:
 			#	logging.info("Moving randomly")
 
-			
 			i = i + 5
 			if i > 360:
 				i = 0
