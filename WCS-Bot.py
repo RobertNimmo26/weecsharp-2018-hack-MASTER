@@ -181,7 +181,7 @@ def GetHeading(x1,y1,x2,y2):
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
 	displacement_y=y2-y1
-	return math.sqrt(displacement_x**2 + displacement_y**2)
+	return int(math.sqrt(displacement_x**2 + displacement_y**2))
 	
 # Main loop - read game messages, ignore them and randomly perform actions
 i=0
@@ -234,20 +234,18 @@ while True:
 			GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {'Amount': distance_to_health})
 			
 		else:
-			'''logging.info("Turn 360 degree")
-			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
-			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
-			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})
-			GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": 90})'''
-			#print('test')
-
+			
+			
 			while (xpos != 0) and (ypos != 0):
+				if ("Name" in message) and (message["Name"] == 'RandomBot'):
+					xpos = message["X"]
+					ypos = message["Y"]
 				turret_heading = GetHeading(xpos,ypos,enemyxpos,enemyypos)
 				body_heading = GetHeading(xpos, ypos, 0, 0)	
 				distance_to_coord = GetDistance(xpos, ypos, 0, 0)
 				
 				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount": turret_heading})
-				#while (xpos != 0) and (ypos != 0):
+				
 				GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 				GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE, {"Amount": distance_to_coord})
 			
