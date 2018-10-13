@@ -211,8 +211,8 @@ while True:
 	if type(message) == dict:
 		print(message)
 		if ("Name" in message) and (message["Name"] == 'RandomBot'):
-			xpos = message["X"]
-			ypos = message["Y"]
+			ypos = message["X"]
+			xpos = message["Y"]
 
 			print(xpos)
 
