@@ -247,11 +247,8 @@ while True:
 			#	GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {'Amount': random.randint(0, 359)})
 			#elif i == 15:
 			#	logging.info("Moving randomly")
-<<<<<<< HEAD
 
-=======
 			
->>>>>>> b84f2b292bef60ca8414adb1973eabb10c295df9
 			i = i + 5
 			if i > 360:
 				i = 0
