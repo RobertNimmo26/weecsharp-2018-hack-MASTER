@@ -1,6 +1,7 @@
 #Main loop for bot after server init etc.
 from mapFunctions import *
 import logging
+import time
 
 def mainLoop(GameServer,ServerMessageTypes):
 
@@ -13,14 +14,20 @@ def mainLoop(GameServer,ServerMessageTypes):
 	enemies = []
 
 	tanks=[]
-	x=[0, 0, 0, 0, 0]
-	y=[0, 0, 0, 0, 0]
-	heading=[0, 0, 0, 0, 0]
-	distance=[0, 0, 0, 0, 0]
+	x=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	y=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	heading=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	distance=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 	while True:
 		message = GameServer.readMessage()
 		logging.info(message)
+
+		# for i in range(1, 4):
+		# 	oogabooga = heading[lowestpos] + (90 * i)
+		# 	logging.info(oogabooga)
+		# 	GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : oogabooga})
+		# 	time.s
 
 		if type(message) == dict and "Name" in message:
 			#print(message)
@@ -72,8 +79,12 @@ def mainLoop(GameServer,ServerMessageTypes):
 					logging.info(heading[lowestpos])
 					
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
+					time.sleep(0.05)
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
-					#time.sleep(0.25)														<-- Find a more elegant solution?
+																			#<-- Find a more elegant solution?
+
+
+				
 
 
 				#other items in the game
