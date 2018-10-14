@@ -1,6 +1,7 @@
 #Main loop for bot after server init etc.
 from mapFunctions import *
 import logging
+import random
 
 def mainLoop(GameServer,ServerMessageTypes):
 
@@ -35,7 +36,15 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 					elif message['Ammo']<3:
 						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos,movementType="ammo")
-				except: print("Not seen any health or ammo yet!")
+
+					else:
+						randx = random.uniform(-20,20)
+						randy = random.uniform(-20,20)
+						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
+
+				except: 
+					print("Not seen any health or ammo yet!")
+
 
 			else:
 				if (message["Type"] == 'Tank'):								#enemy tank
@@ -89,7 +98,6 @@ def mainLoop(GameServer,ServerMessageTypes):
 				if (message["Type"] == 'SnitchPickup'):			#Snitch pickup
 					snitchxpos= message['X']
 					snitchypos=message['Y']
-					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch",movement=movement)
+					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
 																#If there's nothing else tae do
-				else:
-					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0,movementType="idleMovement")
+				

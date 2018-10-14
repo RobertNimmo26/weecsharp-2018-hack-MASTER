@@ -27,10 +27,9 @@ def GetDistance(x1,y1,x2,y2):
 	return int(math.sqrt(displacement_x**2 + displacement_y**2))
 
 def serpentine(xpos,ypos,desiredxpos,desiredypos):
-	
+	pass
 
 def move_to_position(ServerMessageTypes,GameServer,xpos,ypos,desiredxpos,desiredypos,body_heading=0,distance_to_coord=0,movementType="idleMovement",currentMovement="idleMovement"):
-
 	currentPriority = travelPriorities[currentMovement]
 	tryPriority = travelPriorities[movementType]
 
@@ -45,9 +44,8 @@ def move_to_position(ServerMessageTypes,GameServer,xpos,ypos,desiredxpos,desired
 		GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 		GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
-	error = 10		#Change this to adjust how persistent it is to reach an objective
-
-	if (desiredxpos-error <= xpos <= desiredxpos+error) and (desiredypos-error <= ypos <= desiredypos+error):	#Checks for objective approximately reached
-		currentPriority = 7
+		error = 20						#Change this to adjust how persistent it is to reach an objective
+		if distance_to_coord <= error:	#reset tasking
+			currentPriority = 7
 
 	
