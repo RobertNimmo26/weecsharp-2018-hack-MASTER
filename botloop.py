@@ -152,8 +152,8 @@ def mainLoop(GameServer,ServerMessageTypes):
 			if noObject:
 				randx = random.uniform(-10,10)
 				randy = random.uniform(-10,10)
-				turretBearing += 10
-				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING,{"Amount" : turretBearing})
-				time.sleep(0.05)
+				# turretBearing += 10
+				# GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING,{"Amount" : turretBearing})
+				# time.sleep(0.05)
 				movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
 
