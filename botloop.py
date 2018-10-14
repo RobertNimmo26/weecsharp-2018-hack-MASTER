@@ -25,7 +25,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 		if type(message) == dict and "Name" in message:
 			print(message)
 
-			if (message["Name"] == 'RandomBot'):								#our bot tank
+			if (message["Name"] == 'DONKEY'):								#our bot tank
 				xpos = message["X"]
 				ypos = message["Y"]
 

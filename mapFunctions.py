@@ -3,6 +3,15 @@
 import logging
 import math
 
+travelPriority = {
+	"snitch" : 1
+	"snitchGoal" : 2
+	"health" : 3
+	"ammo" : 4
+	""
+	"idleMovement" : 6
+}
+
 def GetHeading(x1,y1,x2,y2):
 	heading = math.degrees(math.atan2(y2-y1,x2-x1))
 	heading = math.fmod(heading-360,360)
