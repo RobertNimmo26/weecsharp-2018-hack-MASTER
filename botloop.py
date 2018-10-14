@@ -147,7 +147,6 @@ def mainLoop(GameServer,ServerMessageTypes):
 				if (message["Type"] == 'SnitchPickup'):			#Snitch pickup
 					snitchxpos= message['X']
 					snitchypos=message['Y']
-<<<<<<< HEAD
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
 																#If there's nothing else tae do
 			if noObject:
@@ -157,11 +156,4 @@ def mainLoop(GameServer,ServerMessageTypes):
 				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING,{"Amount" : turretBearing})
 				time.sleep(0.05)
 				movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
-=======
-					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch",movement=movement)
 
-				else:
-					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0,movementType="idleMovement")
-
-				
->>>>>>> Gav
