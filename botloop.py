@@ -17,7 +17,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 	y=[0, 0, 0, 0, 0]
 	heading=[0, 0, 0, 0, 0]
 	distance=[0, 0, 0, 0, 0]
-	
+
 	while True:
 		message = GameServer.readMessage()
 		logging.info(message)
@@ -31,10 +31,10 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 				try:
 					if message['Health']<3:
-						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,healthxpos,healthypos)
+						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,healthxpos,healthypos,movementType="health")
 
 					elif message['Ammo']<3:
-						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos)
+						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos,movementType="ammo")
 				except: print("Not seen any health or ammo yet!")
 
 			else:
@@ -47,7 +47,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 					badguy = [enemyname,enemyxpos,enemyypos]
 					#print(enemies)
 					enemies.append(badguy)
-					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,enemyxpos,enemyypos)
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,enemyxpos,enemyypos,movementType="chaseEnemy")
 
 					if message["Name"] not in tanks:
 						tanks.append(message["Name"])
@@ -89,7 +89,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 				if (message["Type"] == 'SnitchPickup'):
 					snitchxpos= message['X']
 					snitchypos=message['Y']
-					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos)
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
 
 				else:
-					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0)
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0,movementType="idleMovement")
