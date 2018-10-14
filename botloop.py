@@ -11,6 +11,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 	enemyxpos = 0
 	enemyypos = 0
 	enemies = []
+	killCounter=0
 
 	tanks=[]
 	x=[0, 0, 0, 0, 0]
@@ -73,22 +74,24 @@ def mainLoop(GameServer,ServerMessageTypes):
 					
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
-					if message("HITDETECTED") = true:
-						hitCounter = hitCounter +1
-						while hitCounter < 5:
-							GameServer.sendMessage(ServerMessageTypes.FIRE)
-						killCounter = killCounter + 1
-						if killCounter > 1:
+					if (message["Name"] != 'Donkey') and (message['Health'] !=0):
+
+						GameServer.sendMessage(ServerMessageTypes.FIRE)
+						if (message["Name"] != 'Donkey') and (message['Health'] ==0):
+							killCounter +=1
+
+						if killCounter > 0:
+							killCounter=0
 							if ypos> 0:
-								body_heading = GetHeading(xpos, ypos, 0,100 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, 100)
+								body_heading = GetHeading(xpos, ypos, 0,102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, 102)
 		
 								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
 							else:
-								body_heading = GetHeading(xpos, ypos, 0, -100 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, -100)
+								body_heading = GetHeading(xpos, ypos, 0, -102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, -102)
 		
 								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
