@@ -17,12 +17,12 @@ def mainLoop(GameServer,ServerMessageTypes):
 	SnitchCounter=0
 
 	tanks=[]
-	x=[0, 0, 0, 0, 0]
-	y=[0, 0, 0, 0, 0]
-	heading=[0, 0, 0, 0, 0]
-	distance=[0, 0, 0, 0, 0]
 	turretBearing = 0
 	noObject = True
+	x=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	y=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	heading=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+	distance=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 	while True:
 		message = GameServer.readMessage()
@@ -85,6 +85,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 					logging.info(lowest)
 					logging.info(heading[lowestpos])
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
+					time.sleep(0.05)
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
 
 				
