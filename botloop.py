@@ -2,6 +2,7 @@
 from mapFunctions import *
 import logging
 import random
+import time
 
 def mainLoop(GameServer,ServerMessageTypes):
 
@@ -18,7 +19,8 @@ def mainLoop(GameServer,ServerMessageTypes):
 	y=[0, 0, 0, 0, 0]
 	heading=[0, 0, 0, 0, 0]
 	distance=[0, 0, 0, 0, 0]
-	turretToggle = False
+	turretBearing = 0
+	noObject = True
 
 	while True:
 		message = GameServer.readMessage()
@@ -33,17 +35,15 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 				try:
 					if message['Health']<3:
+						noObject = False
 						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,healthxpos,healthypos,movementType="health")
 
 					elif message['Ammo']<3:
+						noObject = False
 						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos,movementType="ammo")
 
-					else:													#idle movement
-						randx = random.uniform(-20,20)
-						randy = random.uniform(-20,20)
-						if turretToggle == False:
-							GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETLEFT)
-						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
+					else:
+						noObject = True
 
 				except: 
 					print("Not seen any health or ammo yet!")
@@ -78,12 +78,10 @@ def mainLoop(GameServer,ServerMessageTypes):
 						for i in distance:
 							if i != 0 and lowest-i > 0: 
 								lowest = i
-
+					noObject = False
 					lowestpos=distance.index(lowest)              
 					logging.info(lowest)
 					logging.info(heading[lowestpos])
-					if turretToggle:
-						GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETLEFT)
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
 					#time.sleep(0.25)														<-- Find a more elegant solution?
@@ -104,4 +102,10 @@ def mainLoop(GameServer,ServerMessageTypes):
 					snitchypos=message['Y']
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
 																#If there's nothing else tae do
-				
+			if noObject:
+				randx = random.uniform(-10,10)
+				randy = random.uniform(-10,10)
+				turretBearing += 10
+				GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING,{"Amount" : turretBearing})
+				time.sleep(0.05)
+				movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
