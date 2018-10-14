@@ -61,6 +61,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 					badguy = [enemyname,enemyxpos,enemyypos]
 					#print(enemies)
 					enemies.append(badguy)
+					noObject = False
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,enemyxpos,enemyypos,movementType="chaseEnemy")
 
 					if message["Name"] not in tanks:
@@ -95,7 +96,9 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 						if SnitchCounter > 0:
 							SnitchCounter=0
+							noObject = False
 							if ypos> 0:
+		
 								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,103,movementType="snitchGoal")	
 
 
@@ -111,6 +114,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 						if killCounter > 0:
 							killCounter=0
+							noObject = False
 							if ypos> 0:
 								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,103,movementType="snitchGoal")	
 
@@ -136,11 +140,12 @@ def mainLoop(GameServer,ServerMessageTypes):
 				if (message["Type"] == 'SnitchPickup'):			#Snitch pickup
 					snitchxpos= message['X']
 					snitchypos=message['Y']
+					noObject = False
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
-																#If there's nothing else tae do
+			#If there's nothing else tae do
 			if noObject:
 				randx = random.uniform(-10,10)
-				randy = random.uniform(-10,10)
+				randy = random.uniform(90,100)
 				# turretBearing += 10
 				# GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING,{"Amount" : turretBearing})
 				# time.sleep(0.05)

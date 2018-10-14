@@ -43,7 +43,7 @@ def move_to_position(ServerMessageTypes,GameServer,xpos,ypos,desiredxpos,desired
 
 		GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 		GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
-
+		print("distance to objective:{}".format(distance_to_coord))
 		error = 10						#Change this to adjust how persistent it is to reach an objective
 		if distance_to_coord <= error:	#reset tasking
 			currentPriority = 7
