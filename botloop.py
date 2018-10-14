@@ -73,6 +73,28 @@ def mainLoop(GameServer,ServerMessageTypes):
 					
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
+					if message("HITDETECTED") = true:
+						hitCounter = hitCounter +1
+						while hitCounter < 5:
+							GameServer.sendMessage(ServerMessageTypes.FIRE)
+						killCounter = killCounter + 1
+						if killCounter > 1:
+							if ypos> 0:
+								body_heading = GetHeading(xpos, ypos, 0,100 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, 100)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
+							else:
+								body_heading = GetHeading(xpos, ypos, 0, -100 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, -100)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+					#HITDETECTED: "HITDETECTED",
+					#KILL: "KILL",
+					
 					#time.sleep(0.25)														<-- Find a more elegant solution?
 
 
@@ -93,3 +115,5 @@ def mainLoop(GameServer,ServerMessageTypes):
 
 				else:
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0,movementType="idleMovement")
+
+				
