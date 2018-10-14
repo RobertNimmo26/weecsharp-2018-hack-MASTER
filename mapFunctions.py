@@ -26,7 +26,8 @@ def GetDistance(x1,y1,x2,y2):
 	displacement_y=y2-y1
 	return int(math.sqrt(displacement_x**2 + displacement_y**2))
 
-def serpentine(realx,realy)
+def serpentine(xpos,ypos,desiredxpos,desiredypos):
+	
 
 def move_to_position(ServerMessageTypes,GameServer,xpos,ypos,desiredxpos,desiredypos,body_heading=0,distance_to_coord=0,movementType="idleMovement",currentMovement="idleMovement"):
 
