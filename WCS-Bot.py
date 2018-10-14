@@ -411,18 +411,28 @@ while True:
 			ammoxpos= message['X']
 			ammoypos=message['Y']
 
-		if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
-			
+		if ("Name" in message) and (message["Type"] == 'SnitchPickup'):
+			snitchxpos= message['X']
+			snitchypos=message['Y']
+
+		#####	
+
+		if ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
 			move_to_position(xpos,ypos,healthxpos,healthypos)
 
-		elif  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Ammo']<3):
-			
+		elif ("Name" in message) and (message['Name']=='RandomBot') and  (message['Ammo']<3):
 			move_to_position(xpos,ypos,ammoxpos,ammoypos)
 
-		else:
+		elif ("Name" in message) and (message['Type']=='SnitchPickup'):
+			move_to_position(xpos,ypos,snitchxpos,snitchypos)
 
+		elif ("Name" in message) and (message['Name']!='RandomBot') and  (message['Type']=='Tank'):
+			move_to_position(xpos,ypos,enemyxpos,enemyypos)
+
+		else:
 			move_to_position(xpos,ypos,0,0)
 
+		#####
 
 
 
