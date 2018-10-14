@@ -1,7 +1,23 @@
 #Main loop for bot after server init etc.
-import mapFunctions
+from mapFunctions import *
+import logging
 
-def mainLoop():
+def mainLoop(GameServer,ServerMessageTypes):
+
+	i=0
+	names = []
+	xpos = 0
+	ypos = 0
+	enemyxpos = 0
+	enemyypos = 0
+	enemies = []
+
+	tanks=[]
+	x=[0, 0, 0, 0, 0]
+	y=[0, 0, 0, 0, 0]
+	heading=[0, 0, 0, 0, 0]
+	distance=[0, 0, 0, 0, 0]
+	
 	while True:
 		message = GameServer.readMessage()
 		logging.info(message)
@@ -13,11 +29,13 @@ def mainLoop():
 				xpos = message["X"]
 				ypos = message["Y"]
 
-				if message['Health']<3:
-					move_to_position(xpos,ypos,healthxpos,healthypos)
+				try:
+					if message['Health']<3:
+						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,healthxpos,healthypos)
 
-				elif message['Ammo']<3:
-					move_to_position(xpos,ypos,ammoxpos,ammoypos)
+					elif message['Ammo']<3:
+						move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos)
+				except: print("Not seen any health or ammo yet!")
 
 			else:
 				if (message["Type"] == 'Tank'):									#enemy tank
@@ -29,7 +47,7 @@ def mainLoop():
 					badguy = [enemyname,enemyxpos,enemyypos]
 					#print(enemies)
 					enemies.append(badguy)
-					move_to_position(xpos,ypos,enemyxpos,enemyypos)
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,enemyxpos,enemyypos)
 
 					if message["Name"] not in tanks:
 						tanks.append(message["Name"])
@@ -71,7 +89,7 @@ def mainLoop():
 				if (message["Type"] == 'SnitchPickup'):
 					snitchxpos= message['X']
 					snitchypos=message['Y']
-					move_to_position(xpos,ypos,snitchxpos,snitchypos)
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos)
 
-			else:
-				move_to_position(xpos,ypos,0,0)
+				else:
+					move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,0)

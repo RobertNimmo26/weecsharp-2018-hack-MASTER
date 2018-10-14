@@ -1,3 +1,10 @@
+import argparse
+import logging
+import socket
+import json
+import binascii
+import struct
+
 class ServerMessageTypes(object):
 	TEST = 0
 	CREATETANK = 1
@@ -134,19 +141,20 @@ class ServerComms(object):
 			binascii.hexlify(message)))
 		return self.ServerSocket.send(message)
 
+def parseArgs():
+	# Parse command line args
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-d', '--debug', action='store_true', help='Enable debug output')
+	parser.add_argument('-H', '--hostname', default='127.0.0.1', help='Hostname to connect to')
+	parser.add_argument('-p', '--port', default=8052, type=int, help='Port to connect to')
+	parser.add_argument('-n', '--name', default='RandomBot', help='Name of bot')
+	args = parser.parse_args()
 
-# Parse command line args
-parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--debug', action='store_true', help='Enable debug output')
-parser.add_argument('-H', '--hostname', default='127.0.0.1', help='Hostname to connect to')
-parser.add_argument('-p', '--port', default=8052, type=int, help='Port to connect to')
-parser.add_argument('-n', '--name', default='RandomBot', help='Name of bot')
-args = parser.parse_args()
-
-# Set up console logging
-if args.debug:
-	logging.basicConfig(format='[%(asctime)s] %(message)s', level=logging.DEBUG)
-else:
-	logging.basicConfig(format='[%(asctime)s] %(message)s', level=logging.INFO)
+	# Set up console logging
+	if args.debug:
+		logging.basicConfig(format='[%(asctime)s] %(message)s', level=logging.DEBUG)
+	else:
+		logging.basicConfig(format='[%(asctime)s] %(message)s', level=logging.INFO)
+	return args
 
 
