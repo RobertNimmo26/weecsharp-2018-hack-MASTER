@@ -96,18 +96,12 @@ def mainLoop(GameServer,ServerMessageTypes):
 						if SnitchCounter > 0:
 							SnitchCounter=0
 							if ypos> 0:
-								body_heading = GetHeading(xpos, ypos, 0,102 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, 102)
-		
-								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,103,movementType="snitchGoal")	
+
 
 							else:
-								body_heading = GetHeading(xpos, ypos, 0, -102 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, -102)
-		
-								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,-103,movementType="snitchGoal")	
+
 
 					if (message["Name"] != 'Donkey') and (message['Health'] !=0):
 
@@ -118,18 +112,11 @@ def mainLoop(GameServer,ServerMessageTypes):
 						if killCounter > 0:
 							killCounter=0
 							if ypos> 0:
-								body_heading = GetHeading(xpos, ypos, 0,102 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, 102)
-		
-								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,103,movementType="snitchGoal")	
 
 							else:
-								body_heading = GetHeading(xpos, ypos, 0, -102 )	
-								distance_to_coord = GetDistance(xpos, ypos, 0, -102)
-		
-								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+								move_to_position(ServerMessageTypes,GameServer,xpos,ypos,0,-103,movementType="snitchGoal")	
+
 					#HITDETECTED: "HITDETECTED",
 					#KILL: "KILL",
 					

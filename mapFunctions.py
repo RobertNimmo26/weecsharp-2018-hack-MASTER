@@ -19,7 +19,7 @@ def GetHeading(x1,y1,x2,y2):
 	heading = math.degrees(math.atan2(y2-y1,x2-x1))
 	heading = math.fmod(heading-360,360)
 	print(heading)
-	return int(math.fabs(heading))
+	return math.fabs(heading)
 	
 def GetDistance(x1,y1,x2,y2):
 	displacement_x=x2-x1
@@ -44,7 +44,7 @@ def move_to_position(ServerMessageTypes,GameServer,xpos,ypos,desiredxpos,desired
 		GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
 		GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
-		error = 20						#Change this to adjust how persistent it is to reach an objective
+		error = 10						#Change this to adjust how persistent it is to reach an objective
 		if distance_to_coord <= error:	#reset tasking
 			currentPriority = 7
 
