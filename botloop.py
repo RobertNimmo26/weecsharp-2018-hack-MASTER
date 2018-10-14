@@ -80,11 +80,12 @@ def mainLoop(GameServer,ServerMessageTypes):
 						for i in distance:
 							if i != 0 and lowest-i > 0: 
 								lowest = i
+
 					noObject = False
 					lowestpos=distance.index(lowest)              
 					logging.info(lowest)
 					logging.info(heading[lowestpos])
-					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
+					#GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					time.sleep(0.05)
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
 
