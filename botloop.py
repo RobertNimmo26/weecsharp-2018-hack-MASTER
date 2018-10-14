@@ -91,21 +91,21 @@ def mainLoop(GameServer,ServerMessageTypes):
 					if (message["Type"] == 'SnitchPickup' and xpos==message['X'] and ypos==message['Y']):
 						SnitchCounter+=1
 
-					if SnitchCounter > 0:
-						SnitchCounter=0
-						if ypos> 0:
-							body_heading = GetHeading(xpos, ypos, 0,102 )	
-							distance_to_coord = GetDistance(xpos, ypos, 0, 102)
-	
-							GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-							GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+						if SnitchCounter > 0:
+							SnitchCounter=0
+							if ypos> 0:
+								body_heading = GetHeading(xpos, ypos, 0,102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, 102)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
-						else:
-							body_heading = GetHeading(xpos, ypos, 0, -102 )	
-							distance_to_coord = GetDistance(xpos, ypos, 0, -102)
-	
-							GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
-							GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+							else:
+								body_heading = GetHeading(xpos, ypos, 0, -102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, -102)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
 					if (message["Name"] != 'Donkey') and (message['Health'] !=0):
 
