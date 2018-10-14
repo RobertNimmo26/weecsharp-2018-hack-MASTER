@@ -23,12 +23,6 @@ def mainLoop(GameServer,ServerMessageTypes):
 		message = GameServer.readMessage()
 		logging.info(message)
 
-		# for i in range(1, 4):
-		# 	oogabooga = heading[lowestpos] + (90 * i)
-		# 	logging.info(oogabooga)
-		# 	GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : oogabooga})
-		# 	time.s
-
 		if type(message) == dict and "Name" in message:
 			#print(message)
 
