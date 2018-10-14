@@ -373,6 +373,8 @@ enemyxpos = 0
 enemyypos = 0
 healthxpos=0
 healthypos=0
+ammoxpos=0
+ammoypos=0
 enemies = []
 
 tanks=[]
@@ -382,7 +384,7 @@ heading=[0, 0, 0, 0, 0]
 distance=[0, 0, 0, 0, 0]
 
 while True:
-        
+    
 	message = GameServer.readMessage()
 	#logging.info(message)
 	logging.info(message)
@@ -405,10 +407,17 @@ while True:
 		if ("Name" in message) and (message["Type"] == 'HealthPickup') and (message['Name'] != 'RandomBot'):
 			healthxpos= message['X']
 			healthypos=message['Y']
+		if ("Name" in message) and (message["Type"] == 'AmmoPickup') and (message['Name'] != 'RandomBot'):
+			ammoxpos= message['X']
+			ammoypos=message['Y']
 
 		if  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Health']<3):
 			
 			move_to_position(xpos,ypos,healthxpos,healthypos)
+
+		elif  ("Name" in message) and (message['Name']=='RandomBot') and  (message['Ammo']<3):
+			
+			move_to_position(xpos,ypos,ammoxpos,ammoypos)
 
 		else:
 
