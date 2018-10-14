@@ -1,6 +1,5 @@
 #!/usr/bin/python
 
-
 import json
 import socket
 import logging
@@ -10,6 +9,25 @@ import argparse
 import random
 import math
 import time
+
+
+i=0
+names = []
+xpos = 0
+ypos = 0
+enemyxpos = 0
+enemyypos = 0
+healthxpos=0
+healthypos=0
+ammoxpos=0
+ammoypos=0
+enemies = []
+
+tanks=[]
+x=[0, 0, 0, 0, 0]
+y=[0, 0, 0, 0, 0]
+heading=[0, 0, 0, 0, 0]
+distance=[0, 0, 0, 0, 0]
 
 
 class ServerMessageTypes(object):
@@ -193,23 +211,7 @@ def move_to_position(xpos,ypos,desiredxpos,desiredypos,body_heading=0,distance_t
 	GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
 
 # Main loop - read game messages, ignore them and randomly perform actions
-i=0
-names = []
-xpos = 0
-ypos = 0
-enemyxpos = 0
-enemyypos = 0
-healthxpos=0
-healthypos=0
-ammoxpos=0
-ammoypos=0
-enemies = []
 
-tanks=[]
-x=[0, 0, 0, 0, 0]
-y=[0, 0, 0, 0, 0]
-heading=[0, 0, 0, 0, 0]
-distance=[0, 0, 0, 0, 0]
 
 while True:
     
@@ -261,17 +263,6 @@ while True:
 			move_to_position(xpos,ypos,0,0)
 
 		#####
-
-
-
-#GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount" : 0})
-#GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : 90})
-
- 
-        #GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETRIGHT)
-        #GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : }
-        
-	#logging.info(message)
 
 		if "Type" in message.keys():
 			if message["Type"] == "Tank":
