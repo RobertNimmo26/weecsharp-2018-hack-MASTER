@@ -18,6 +18,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 	y=[0, 0, 0, 0, 0]
 	heading=[0, 0, 0, 0, 0]
 	distance=[0, 0, 0, 0, 0]
+	turretToggle = False
 
 	while True:
 		message = GameServer.readMessage()
