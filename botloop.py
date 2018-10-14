@@ -37,9 +37,11 @@ def mainLoop(GameServer,ServerMessageTypes):
 					elif message['Ammo']<3:
 						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,ammoxpos,ammoypos,movementType="ammo")
 
-					else:
+					else:													#idle movement
 						randx = random.uniform(-20,20)
 						randy = random.uniform(-20,20)
+						if turretToggle == False:
+							GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETLEFT)
 						movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,randx,randy,movementType="idleMovement")
 
 				except: 
@@ -79,7 +81,8 @@ def mainLoop(GameServer,ServerMessageTypes):
 					lowestpos=distance.index(lowest)              
 					logging.info(lowest)
 					logging.info(heading[lowestpos])
-					
+					if turretToggle:
+						GameServer.sendMessage(ServerMessageTypes.TOGGLETURRETLEFT)
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
 					#time.sleep(0.25)														<-- Find a more elegant solution?
