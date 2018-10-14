@@ -23,4 +23,3 @@ GameServer.sendMessage(ServerMessageTypes.CREATETANK, {'Name': args.name})
 
 # Main loop - read game messages, ignore them and randomly perform actions
 botloop.mainLoop(GameServer,ServerMessageTypes)
-

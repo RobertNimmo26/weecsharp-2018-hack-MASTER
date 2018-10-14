@@ -13,6 +13,8 @@ def mainLoop(GameServer,ServerMessageTypes):
 	enemyxpos = 0
 	enemyypos = 0
 	enemies = []
+	killCounter=0
+	SnitchCounter=0
 
 	tanks=[]
 	x=[0, 0, 0, 0, 0]
@@ -84,6 +86,51 @@ def mainLoop(GameServer,ServerMessageTypes):
 					logging.info(heading[lowestpos])
 					GameServer.sendMessage(ServerMessageTypes.TURNTURRETTOHEADING, {"Amount" : heading[lowestpos]})
 					GameServer.sendMessage(ServerMessageTypes.FIRE)
+
+				
+					if (message["Type"] == 'SnitchPickup' and xpos==message['X'] and ypos==message['Y']):
+						SnitchCounter+=1
+
+					if SnitchCounter > 0:
+						SnitchCounter=0
+						if ypos> 0:
+							body_heading = GetHeading(xpos, ypos, 0,102 )	
+							distance_to_coord = GetDistance(xpos, ypos, 0, 102)
+	
+							GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+							GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
+						else:
+							body_heading = GetHeading(xpos, ypos, 0, -102 )	
+							distance_to_coord = GetDistance(xpos, ypos, 0, -102)
+	
+							GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+							GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
+					if (message["Name"] != 'Donkey') and (message['Health'] !=0):
+
+						GameServer.sendMessage(ServerMessageTypes.FIRE)
+						if (message["Name"] != 'Donkey') and (message['Health'] ==0):
+							killCounter +=1
+
+						if killCounter > 0:
+							killCounter=0
+							if ypos> 0:
+								body_heading = GetHeading(xpos, ypos, 0,102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, 102)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+
+							else:
+								body_heading = GetHeading(xpos, ypos, 0, -102 )	
+								distance_to_coord = GetDistance(xpos, ypos, 0, -102)
+		
+								GameServer.sendMessage(ServerMessageTypes.TURNTOHEADING, {"Amount": body_heading})
+								GameServer.sendMessage(ServerMessageTypes.MOVEFORWARDDISTANCE , {"Amount": distance_to_coord})
+					#HITDETECTED: "HITDETECTED",
+					#KILL: "KILL",
+					
 					#time.sleep(0.25)														<-- Find a more elegant solution?
 
 
@@ -100,6 +147,7 @@ def mainLoop(GameServer,ServerMessageTypes):
 				if (message["Type"] == 'SnitchPickup'):			#Snitch pickup
 					snitchxpos= message['X']
 					snitchypos=message['Y']
+<<<<<<< HEAD
 					movement = move_to_position(ServerMessageTypes,GameServer,xpos,ypos,snitchxpos,snitchypos,movementType="snitch")
 																#If there's nothing else tae do
 			if noObject:
